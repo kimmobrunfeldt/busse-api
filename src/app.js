@@ -62,8 +62,8 @@ function startApp() {
             logger.error(JSON.stringify(req.params));
         }
 
-        if (process.env.NODE_ENV === 'development' ||
-            (process.env.NODE_ENV === 'test' && status >= 500)
+        if (process.env.NODE_ENV === 'test' && status >= 500 ||
+            process.env.NODE_ENV === 'development'
         ) {
             console.log(err.stack);
         }

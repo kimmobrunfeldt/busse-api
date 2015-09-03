@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import * as areaService from '../services/area-service';
 import {createJsonRoute} from '../utils';
 

@@ -3,16 +3,12 @@
   "version": "1.0.0",
   "description": "Busse API",
   "main": "src/main.js",
-  "scripts": {
-    "start": "PORT=9000 nodemon --exec babel-node -- ./src/index.js",
-    "test": "NODE_ENV=test PORT=8888 mocha --compilers js:babel/register"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kimmobrunfeldt/busse-api.git"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "Kimmo Brunfeldt",
+  "license": "-",
   "bugs": {
     "url": "https://github.com/kimmobrunfeldt/busse-api/issues"
   },
@@ -37,5 +33,12 @@
     "mocha": "^2.3.0",
     "nodemon": "^1.4.1",
     "superagent": "^1.3.0"
+  },
+  "scripts": {
+    "start": "PORT=9000 nodemon --exec babel-node -- ./src/index.js",
+    "ci": "./tools/ci.sh",
+    "test": "NODE_ENV=test PORT=8888 mocha --compilers js:babel/register",
+    "eslint": "eslint --ext .js ./src ./test",
+    "jscs": "jscs ./src ./test"
   }
 }
