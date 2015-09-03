@@ -2,12 +2,13 @@ import _ from 'lodash';
 import Promise from 'bluebird';
 import geolib from 'geolib';
 import * as tampere from '../adapters/tampere';
+import * as helsinki from '../adapters/helsinki';
 import createInterval from '../interval';
 import createLogger from '../logger';
 const logger = createLogger(__filename);
 
 // Active adapters which are fetched from
-const adapters = [tampere];
+const adapters = [tampere, helsinki];
 
 // Module's global data
 // Format:
@@ -17,8 +18,6 @@ let vehicleData = {};
 function _fetchVehiclesWithInterval() {
     adapters.map((adapter) => {
         const interval = createInterval(() => {
-            logger.info('Fetching data for adapter: ' + adapter.id);
-
             return adapter.fetch().then((vehicles) => {
                 // Add area id to each vehicle for convenience
                 _.each(vehicles, function(vehicle) {
@@ -26,7 +25,6 @@ function _fetchVehiclesWithInterval() {
                 });
 
                 vehicleData[adapter.id] = vehicles;
-                logger.info('Data received for adapter: ' + adapter.id);
                 return vehicles;
             });
         }, {interval: process.env.LOOP_INTERVAL})

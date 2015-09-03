@@ -23,6 +23,7 @@ function _transformVehicle(data, vehicle) {
 
     return {
         id: journey.VehicleRef.value,
+        type: 'bus',
         line: journey.LineRef.value,
         latitude: journey.VehicleLocation.Latitude,
         longitude: journey.VehicleLocation.Longitude,

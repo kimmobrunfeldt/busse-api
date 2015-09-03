@@ -106,8 +106,8 @@ function startApp() {
     }
 
     // Handle signals gracefully. Heroku will send SIGTERM before idle.
-    process.once('SIGTERM', _closeServer.bind(this, 'SIGTERM'));
-    process.once('SIGINT', _closeServer.bind(this, 'SIGINT(Ctrl-C)'));
+    process.on('SIGTERM', _closeServer.bind(this, 'SIGTERM'));
+    process.on('SIGINT', _closeServer.bind(this, 'SIGINT(Ctrl-C)'));
 
     server.on('close', () => {
         logger.info('Server closed');
