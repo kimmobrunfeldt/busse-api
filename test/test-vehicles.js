@@ -4,26 +4,10 @@ function testVehicles() {
     describe('/vehicles', function() {
         this.timeout(5000);
 
-        it('topLeft without bottomRight should not be accepted', (done) => {
+        it('bounds with lower than 3 coordinates', (done) => {
             _expectBadVehiclesRequest({
                 query: {
-                    topLeft: '123.122:123.22'
-                }
-            }, done);
-        });
-
-        it('bottomRight without topLeft should not be accepted', (done) => {
-            _expectBadVehiclesRequest({
-                query: {
-                    bottomRight: '123.122:123.22'
-                }
-            }, done);
-        });
-
-        it('invalid bottomRight should not be accepted', (done) => {
-            _expectBadVehiclesRequest({
-                query: {
-                    bottomRight: '123.122'
+                    bounds: ['123.122:123.22', '123.122:123.22']
                 }
             }, done);
         });
