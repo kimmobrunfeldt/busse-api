@@ -19,6 +19,7 @@
     "compression": "^1.5.2",
     "cors": "^2.7.1",
     "express": "^4.13.3",
+    "geolib": "^2.0.18",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "morgan": "^1.6.1",

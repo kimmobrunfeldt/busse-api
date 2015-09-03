@@ -2,52 +2,58 @@ import _ from 'lodash';
 import * as vehicleService from '../services/vehicle-service';
 import {createJsonRoute} from '../utils';
 
-let getVehicles = createJsonRoute(function(req, res) {
+let getVehicles = createJsonRoute((req, res) => {
     let params = {
-        area: req.query.area
+        areas: ensureArray(req.query.area)
     };
 
-    params.line = _.map(req.query.line, (lineString) => {
-        const [area, line] = _splitMultiParameter(lineString);
+    var lines = ensureArray(req.query.line);
+    params.lines = _.map(lines, (lineString) => {
+        const [area, id] = _splitMultiParameter(lineString);
 
         return {
             area,
-            line
+            id
         };
     });
 
-    if (req.query.topLeft) {
-        params.topLeft = _parseCoordinate(req.query, 'topLeft');
-    };
+    var bounds = req.query.bounds;
+    if (_.isArray(bounds)) {
+        if (bounds.length < 3) {
+            const err = new Error('Bounds have to form a polygon');
+            err.status = 400;
+            throw err;
+        }
 
-    if (req.query.bottomRight) {
-        params.bottomRight = _parseCoordinate(req.query, 'bottomRight');
-    };
-
-    if (_.any([params.topLeft, params.bottomRight]) &&
-        !_.all([params.topLeft, params.bottomRight])
-    ) {
-        const err = new Error('Both topLeft and bottomRight must be defined');
-        err.status = 400;
-        throw err;
+        params.bounds = _.map(bounds, _parseCoordinate);
     }
 
     return vehicleService.getVehicles(params);
 });
 
-function _parseCoordinate(query, paramName) {
-    const [latitude, longitude] = _splitMultiParameter(query[paramName]);
+function ensureArray(obj) {
+    if (_.isArray(obj)) {
+        return obj
+    } else if (!_.isUndefined(obj)) {
+        return [obj];
+    }
+
+    return obj;
+}
+
+function _parseCoordinate(coordString) {
+    const [latitude, longitude] = _splitMultiParameter(coordString);
     return {
         latitude,
         longitude
     };
 }
 
-function _splitMultiParameter(paramValue, name) {
+function _splitMultiParameter(paramValue) {
     const splitted = paramValue.split(':');
 
     if (splitted.length !== 2) {
-        const msg = 'Invalid format of parameter: ' + name;
+        const msg = 'Invalid format of parameter';
         const err = new Error(msg);
         err.status = 400;
         throw err;

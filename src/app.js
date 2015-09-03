@@ -109,6 +109,10 @@ function startApp() {
     process.once('SIGTERM', _closeServer.bind(this, 'SIGTERM'));
     process.once('SIGINT', _closeServer.bind(this, 'SIGINT(Ctrl-C)'));
 
+    server.on('close', () => {
+        logger.info('Server closed');
+    });
+
     return {
         app: app,
         server: server,
