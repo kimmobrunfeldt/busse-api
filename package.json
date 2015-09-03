@@ -1,0 +1,41 @@
+{
+  "name": "busse-api",
+  "version": "1.0.0",
+  "description": "Busse API",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "PORT=9000 nodemon --exec babel-node -- ./src/index.js",
+    "test": "NODE_ENV=test PORT=8888 mocha --compilers js:babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimmobrunfeldt/busse-api.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kimmobrunfeldt/busse-api/issues"
+  },
+  "homepage": "https://github.com/kimmobrunfeldt/busse-api#readme",
+  "dependencies": {
+    "babel": "^5.8.23",
+    "bluebird": "^2.9.34",
+    "compression": "^1.5.2",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "lodash": "^3.10.1",
+    "moment": "^2.10.6",
+    "morgan": "^1.6.1",
+    "newrelic": "^1.22.0",
+    "winston": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.1",
+    "chai": "^3.2.0",
+    "eslint": "^1.3.1",
+    "jscs": "^2.1.1",
+    "mocha": "^2.3.0",
+    "nodemon": "^1.4.1",
+    "superagent": "^1.3.0"
+  }
+}
