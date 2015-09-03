@@ -4,8 +4,6 @@ import geolib from 'geolib';
 import * as tampere from '../adapters/tampere';
 import * as helsinki from '../adapters/helsinki';
 import createInterval from '../interval';
-import createLogger from '../logger';
-const logger = createLogger(__filename);
 
 // Active adapters which are fetched from
 const adapters = [tampere, helsinki];
@@ -30,9 +28,6 @@ function _fetchVehiclesWithInterval() {
         }, {interval: process.env.LOOP_INTERVAL})
 
         interval.start();
-
-        process.on('SIGINT', interval.stop);
-        process.on('SIGTERM', interval.stop);
     });
 }
 

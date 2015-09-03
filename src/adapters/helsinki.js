@@ -32,6 +32,8 @@ function _transformVehicle(data, vehicle) {
     };
 }
 
+/*eslint-disable */
+// jscs:disable
 // From http://dev.hsl.fi/:
 // (Values of lineRef are "JORE codes" and can be converted to passenger-friendly line numbers using the interpret_jore example code.)
 // (lineRef query parameter can be added to limit the response to that single "JORE code".)
@@ -55,6 +57,8 @@ function _interpretJore(routeId) {
     }
     return [mode, routeType, route];
 }
+// jscs:enable
+/*eslint-enable */
 
 export {
     id,
