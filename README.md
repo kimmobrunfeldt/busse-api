@@ -48,20 +48,26 @@ This API fetches newest data from original APIs in 1000ms interval.
 Field     | Type | Description
 --------- | ---- | -----------
 **id**               | *String*  |  Vehicle identifier. Example: `TKL_34`
+**type**             | *String*  |  Type of the vehicle. Valid values: `bus`, `train`, `ferry`, `tram`, `subway`. Example: `bus`
+**area**             | *String*  |  Vehicle area. Example: `helsinki`
 **line**             | *String*  |  Vehicle line id. Example: `90M`
 **latitude**         | *Number*  |  Latitude coordinate. Example: `61.5192917`
 **longitude**        | *Number*  |  Longitude coordinate. Example: `23.6257467`
 **rotation**         | *Number*  |  Rotation of a vehicle. *0* to *360*. *0* means the vehicle is stopped. East would be *90*. Example: `12`.
+**resopnseTime**     | *Date*    |  Indicates when the external API responded the vehicle. Example: `2015-09-03T22:09:28.883Z`.
 
 Example object:
 
 ```json
 {
-  "id": "Paunu_149",
-  "line": "1A",
-  "latitude": 61.4976153,
-  "longitude": 23.7662998,
-  "rotation": 0
+    "id": "PAUNU_165",
+    "type": "bus",
+    "line": "1A",
+    "latitude": 61.471807,
+    "longitude": 23.756158,
+    "rotation": 41,
+    "responseTime": "2015-09-03T22:13:17.274Z",
+    "area": "tampere"
 }
 ```
 
