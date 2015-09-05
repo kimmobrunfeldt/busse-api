@@ -3,6 +3,8 @@ import ajax from '../ajax';
 
 const id = 'helsinki';
 const name = 'Helsinki';
+const latitude = 60.200763;
+const longitude = 24.936219;
 const apiUrl = 'http://dev.hsl.fi/siriaccess/vm/json';
 
 function fetch() {
@@ -63,5 +65,7 @@ function _interpretJore(routeId) {
 export {
     id,
     name,
+    latitude,
+    longitude,
     fetch
 };

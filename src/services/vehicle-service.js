@@ -1,12 +1,8 @@
 import _ from 'lodash';
 import Promise from 'bluebird';
 import geolib from 'geolib';
-import * as tampere from '../adapters/tampere';
-import * as helsinki from '../adapters/helsinki';
 import createInterval from '../interval';
-
-// Active adapters which are fetched from
-const adapters = [tampere, helsinki];
+import adapters from '../adapters/index';
 
 // Module's global data
 // Format:

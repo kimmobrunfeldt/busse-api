@@ -87,7 +87,7 @@ Example object:
 {
   "id": "helsinki",
   "name": "Helsinki",
-  "lines": [{"id": "1A", "type": "bus", "operator": "HKL"}],
+  "lines": [{"id": "1A", "type": "bus"}],
   "latitude": 61.4976153,
   "longitude": 23.7662998
 }
@@ -98,17 +98,15 @@ Example object:
 Field     | Type | Description
 --------- | ---- | -----------
 **id**               | *String*  |  Line identifier. Example: `90M`
-**area**             | *String*  |  Area of the line. Example: `helsinki`
-**type**             | *String*  |  Vehicle type which drives the line. Valid values: `bus`, `train`, `ferry`, `tram`, `subway`.
-**operator**         | *String*  |  Line operator id. Example: `TKL`.
+**type**             | *String*  |  Vehicle type which drives the line. Valid values: `tram`, `subway`, `rail`, `bus`, `ferry`, `cablecar`, `gondola`, `funicular`.
+
 
 Example object:
 
 ```json
 {
   "id": "1A",
-  "type": "bus",
-  "operator": "TKL"
+  "type": "bus"
 }
 ```
 
