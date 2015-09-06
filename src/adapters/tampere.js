@@ -2,8 +2,6 @@
 // Returned format from original API is a bit strange and very deeply nested.
 // Original API url: http://data.itsfactory.fi/siriaccess/vm/json
 
-import fs from 'fs';
-import path from 'path';
 import moment from 'moment';
 import ajax from '../ajax';
 

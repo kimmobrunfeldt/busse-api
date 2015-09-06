@@ -111,6 +111,7 @@ function startApp() {
 
     server.on('close', () => {
         logger.info('Server closed');
+        process.emit('cleanup');
     });
 
     return {

@@ -21,7 +21,10 @@ function _fetchVehiclesWithInterval() {
                 vehicleData[adapter.id] = vehicles;
                 return vehicles;
             });
-        }, {interval: process.env.LOOP_INTERVAL})
+        }, {
+            interval: process.env.LOOP_INTERVAL,
+            name: adapter.id
+        })
 
         interval.start();
     });
