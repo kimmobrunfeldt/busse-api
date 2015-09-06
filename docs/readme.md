@@ -36,6 +36,12 @@ Now you should be able to get data for the area from Busse API.
 
 All areas in Busse and additional information about them.
 
+Resources for finding new areas:
+
+* https://code.google.com/p/googletransitdatafeed/wiki/PublicFeedsNonGTFS
+* https://en.wikipedia.org/wiki/Service_Interface_for_Real_Time_Information
+
+
 ### Tampere
 
 Data: `SIRI VM`
@@ -88,5 +94,16 @@ Data: `GTFS Realtime`
 **Shortcuts:**
 
 * [Massachusetts public transport realtime developer site](http://realtime.mbta.com/Portal/Home/Documents)
+* [GTFS data dump](http://www.gtfs-data-exchange.com/agency/massachusetts-bay-transportation-authority/)
 * [GTFS realtime documentation](http://realtime.mbta.com/Portal/Content/Documents/MBTA-realtime_GTFSRTDocumentation_v2_2014-08-04.pdf)
 * [Register](http://realtime.mbta.com/Portal/Account/Register)
+
+### Utah (not implemented yet)
+
+Data: `SIRI VM`
+
+**Shortcuts:**
+
+* [GTFS data dump](http://www.gtfs-data-exchange.com/agency/utah-transit-authority/)
+* [SIRI API doc](http://developer.rideuta.com/DeveloperResources/DataInstructions.aspx)
+* [Register](http://developer.rideuta.com/DeveloperResources/Registration.aspx)
