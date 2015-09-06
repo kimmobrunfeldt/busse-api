@@ -43,6 +43,8 @@ This API fetches newest data from original APIs in 1000ms interval.
 
 * `GET /areas` List possible areas
 
+* `GET /messages` List all Busse messages
+
 
 ## Response objects
 
@@ -112,6 +114,26 @@ Example object:
   "type": "bus"
 }
 ```
+
+### Message
+
+Field         | Type      | Description
+------------- | --------- | -----------
+**id**        | *String*  | Message identifier. Example: `1`
+**expires**   | *Date*    | Date when the message expires. If null, the message never expires
+**html**      | *String*  | HTML for the message.
+
+
+Example object:
+
+```json
+{
+  "id": "1",
+  "expires": "2015-09-06T11:48:36.035Z",
+  "html": "Busse is temporarily using HERE maps. <a href='https://twitter.com/bussefi'>Read more: twitter.com/bussefi<a>"
+}
+```
+
 
 ## Error handling
 
