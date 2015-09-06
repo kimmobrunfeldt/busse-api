@@ -19,6 +19,7 @@ function _transform(data) {
 function _transformVehicle(data, vehicle) {
     var journey = vehicle.MonitoredVehicleJourney;
 
+    // XXX: The vehicle type information is already in the lines json
     var routeInfo = _interpretJore(journey.LineRef.value);
     var lineName = routeInfo[2];
     var vehicleType = routeInfo[0].toLowerCase();

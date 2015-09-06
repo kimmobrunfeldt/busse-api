@@ -1,5 +1,36 @@
 # Documentation
 
+Documentation for developers.
+
+## Overview
+
+Busse API is a simple proxy API which gathers real time data from external APIs.
+See the following diagram:
+
+![](busse-dataflow.png)
+
+The external APIs have a bit different data format.
+Adapters transform the data from external APIs to common "Busse" format.
+
+### Add new area / add a new adapter
+
+Adding a new area is simple:
+
+1. Get GTFS static data dump of the area.
+2. In the project root, run `node ./tools/parse-gtfs.js path/to/gtfs/routes > ./data/area.json`.
+3. Write an adapter to [src/adapters/](../src/adapters/).
+
+    Adapter module must export:
+
+    * `id` Id of the area. Format `[a-z]+` e.g. 'tampere'.
+    * `name` Human name of the area displayed in UI. E.g. `Tampere`
+    * `latitude` Center of the area.
+    * `longitude` Center of the area
+    * `fetch` Function which returns a Promise. The promise must be resolved with array of vehicles locations in "Busse" format.
+
+4. Enable the adapter by adding it to (src/adapters/index.js)(../src/adapters/index.js)
+
+Now you should be able to get data for the area from Busse API.
 
 ## Areas
 

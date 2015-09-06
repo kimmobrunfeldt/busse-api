@@ -12,6 +12,12 @@ This API fetches newest data from original APIs in 1000ms interval.
 * Works offline
 * Indicates the freshness of data
 
+
+**Shortcuts:**
+
+* [Developer documentation](docs/readme.md)
+* [API endpoints](#api-endpoints)
+
 ## Tech
 
 * Node.js express app
