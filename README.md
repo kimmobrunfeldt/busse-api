@@ -32,13 +32,10 @@ This API fetches newest data from original APIs in 1000ms interval.
     * `bounds` Array of latitude and longitude coorinates to form a polygon, which limits the area where to return vehicles. This is an array of points. Format for single coordinate: `<lat>:<lng>`. Example request: `?bounds=61.4976153:23.7662998&bounds=62.4976153:23.7662998&bounds=61.4976153:23.7662998&bounds=60.4976153:21.7662998`.
 
         This can be used to reduce amount of data transferred on each request.
-
-    * `bottomRight` Bottom left latitude and longitude coordinate where to return vehicles.
+        Minimum of 3 points must be given.
+        Most common use case is to give boundaries of view port of the map.
 
 * `GET /areas` List possible areas
-
-    **Parameters**
-    * `area` One or multiple areas. Valid values: `helsinki`, `tampere`, `oulu`,
 
 
 ## Response objects
