@@ -144,3 +144,16 @@ When HTTP status code is 400 or higher, response is in format:
   "error": "Internal Server Error"
 }
 ```
+
+When HTTP status code is below 400, there might be still errors with different
+adapters. These errors are defined in the following format:
+
+```json
+{
+
+  "errors": [
+      {"adapter": "tampere", "error": "Empty response from original server"},
+      {"adapter": "helsinki", "error": "Some error"}
+  ]
+}
+```

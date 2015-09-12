@@ -3,23 +3,48 @@ import Promise from 'bluebird';
 import geolib from 'geolib';
 import createInterval from '../interval';
 import adapters from '../adapters/index';
+import createLogger from '../logger';
+const logger = createLogger(__filename);
 
 // Module's global data
-// Format:
-// { areaName: [vehicles ... ] }
-let vehicleData = {};
+let global = {
+    // Format:
+    // { areaName: [vehicles ... ] }
+    vehicleData: {},
+
+    // { areaName: [Error Object] }
+    errors: {}
+};
 
 function _fetchVehiclesWithInterval() {
     adapters.map((adapter) => {
         const interval = createInterval(() => {
+            // TODO: implement logic to detect slow fetches
             return adapter.fetch().then((vehicles) => {
+                if (_.isEmpty(vehicles)) {
+                    logger.warn('Adapter', adapter.id, 'provided empty response:');
+                    logger.warn(vehicles);
+                    throw new Error('Empty response from remote server.');
+                }
+
                 // Add area id to each vehicle for convenience
                 _.each(vehicles, function(vehicle) {
                     vehicle.area = adapter.id;
                 });
 
-                vehicleData[adapter.id] = vehicles;
+                global.vehicleData[adapter.id] = vehicles;
+
+                // Clear global.errors
+                if (_.has(global.errors, adapter.id)) {
+                    delete global.errors[adapter.id];
+                }
+
                 return vehicles;
+            })
+            .catch((err) => {
+                logger.error('Error when fetching from ' + adapter.id);
+                logger.error(err);
+                global.errors[adapter.id] = err.message;
             });
         }, {
             interval: process.env.LOOP_INTERVAL,
@@ -38,13 +63,13 @@ function getVehicles(params) {
 
     if (_.isArray(params.areas)) {
         vehicles = _.reduce(params.areas, function(all, area) {
-            if (_.has(vehicleData, area)) {
-                return all.concat(vehicleData[area]);
+            if (_.has(global.vehicleData, area)) {
+                return all.concat(global.vehicleData[area]);
             }
             return all;
         }, []);
     } else {
-        vehicles = _.reduce(vehicleData, function(all, areaVehicles, key) {
+        vehicles = _.reduce(global.vehicleData, function(all, areaVehicles, key) {
             return all.concat(areaVehicles);
         }, []);
     }
@@ -69,7 +94,10 @@ function getVehicles(params) {
         })
     }
 
-    return Promise.resolve(vehicles);
+    return Promise.resolve({
+        vehicles: vehicles,
+        errors: global.errors
+    });
 }
 
 export {

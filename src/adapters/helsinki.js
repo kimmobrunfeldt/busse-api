@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import moment from 'moment';
 import ajax from '../ajax';
 
@@ -13,7 +14,7 @@ function fetch() {
 
 function _transform(data) {
     const vehicles = data.Siri.ServiceDelivery.VehicleMonitoringDelivery[0].VehicleActivity;
-    return vehicles.map(_transformVehicle.bind(this, data));
+    return _.map(vehicles, _transformVehicle.bind(this, data));
 }
 
 function _transformVehicle(data, vehicle) {

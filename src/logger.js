@@ -15,14 +15,7 @@ function createLogger(filePath) {
         })]
     });
 
-    if (process.env.NODE_ENV === 'test') {
-        _setLevelForTransports(logger, 'warning');
-    } else if (process.env.NODE_ENV === 'production') {
-        _setLevelForTransports(logger, 'info');
-    } else {
-        _setLevelForTransports(logger, 'silly');
-    }
-
+    _setLevelForTransports(logger, process.env.LOG_LEVEL || 'info');
     return logger;
 }
 
