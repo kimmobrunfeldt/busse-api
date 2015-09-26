@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git+https://github.com/kimmobrunfeldt/busse-api.git"
   },
+  "engines": {
+    "node": "4.0.x"
+  },
   "author": "Kimmo Brunfeldt",
   "license": "-",
   "bugs": {
