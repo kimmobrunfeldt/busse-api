@@ -24,6 +24,7 @@
     "moment": "^2.10.6",
     "morgan": "^1.6.1",
     "newrelic": "^1.22.0",
+    "superagent": "^1.4.0",
     "winston": "^1.0.1"
   },
   "devDependencies": {

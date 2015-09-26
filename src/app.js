@@ -17,6 +17,7 @@ function startApp() {
 
     // Heroku's load balancer can be trusted
     app.enable('trust proxy');
+    app.disable('x-powered-by');
 
     if (process.env.NODE_ENV === 'development') {
         app.use(morgan('dev'));
