@@ -94,6 +94,11 @@ function getVehicles(params) {
         })
     }
 
+    // Sometimes data contains null locations, filter them out
+    vehicles = _.filter(vehicles, vehicle => {
+        return vehicle.latitude !== 0 && vehicle.longitude !== 0;
+    });
+
     return Promise.resolve({
         vehicles: vehicles,
         errors: global.errors

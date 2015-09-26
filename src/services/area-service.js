@@ -12,7 +12,7 @@ const areas = _.map(adapters, function(adapter) {
         longitude: adapter.longitude
     };
 
-    const filePath = path.join(__dirname, '../../data/' + adapter.id + '.json');
+    const filePath = path.join(__dirname, '../adapters/' + adapter.id + '.json');
     area.lines = JSON.parse(fs.readFileSync(filePath, 'utf8')).lines;
 
     return area;
