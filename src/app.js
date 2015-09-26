@@ -1,7 +1,3 @@
-if (process.env.NODE_ENV === 'production') {
-    require('newrelic');
-}
-
 import './init-env-variables';
 import http from 'http';
 import express from 'express';
