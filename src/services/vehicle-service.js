@@ -27,6 +27,21 @@ function _fetchVehiclesWithInterval() {
                     throw new Error('Empty response from remote server.');
                 }
 
+                const vehicleIds = _.pluck(vehicles, 'id');
+                const uniqVehicleIds = _.uniq(vehicleIds);
+                if (vehicleIds.length !== uniqVehicleIds.length) {
+                    logger.warn('Adapter', adapter.id, 'provides multiple vehicles with same id:');
+
+                    const groupedById = _.groupBy(vehicles, 'id');
+                    _.each(groupedById, function(val, id) {
+                        if (val.length > 1) {
+                            logger.warn('Vehicles with same id:', val);
+                        }
+                    });
+
+                    throw new Error('Non-unique vehicles returned from remote server.');
+                }
+
                 // Add area id to each vehicle for convenience
                 _.each(vehicles, function(vehicle) {
                     vehicle.area = adapter.id;
@@ -59,24 +74,38 @@ function _fetchVehiclesWithInterval() {
 _fetchVehiclesWithInterval();
 
 function getVehicles(params) {
-    let vehicles;
+    let vehicles = _.reduce(global.vehicleData, function(all, areaVehicles, key) {
+        return all.concat(areaVehicles);
+    }, []);
 
-    if (_.isArray(params.areas)) {
-        vehicles = _.reduce(params.areas, function(all, area) {
-            if (_.has(global.vehicleData, area)) {
-                return all.concat(global.vehicleData[area]);
-            }
-            return all;
-        }, []);
-    } else {
-        vehicles = _.reduce(global.vehicleData, function(all, areaVehicles, key) {
-            return all.concat(areaVehicles);
-        }, []);
+    vehicles = _filterVehiclesWithAreas(vehicles, params.areas);
+    vehicles = _filterVehiclesWithLines(vehicles, params.lines);
+    vehicles = _filterVehiclesWithBounds(vehicles, params.bounds);
+
+    // Sometimes data contains null locations, filter them out
+    // null location means: lat:0 lng:0
+    vehicles = _filterNullLocationVehicles(vehicles);
+
+    return Promise.resolve({
+        vehicles: vehicles,
+        errors: global.errors
+    });
+}
+
+function _filterVehiclesWithAreas(vehicles, areas) {
+    if (_.isArray(areas)) {
+        return _.filter(vehicles, function(vehicle) {
+            return _.contains(areas, vehicle.area);
+        });
     }
 
-    if (_.isArray(params.lines) && params.lines.length > 0) {
-        vehicles = _.filter(vehicles, function(vehicle) {
-            const isVehicleWanted = _.any(params.lines, function(line) {
+    return vehicles;
+}
+
+function _filterVehiclesWithLines(vehicles, lines) {
+    if (_.isArray(lines) && lines.length > 0) {
+        return _.filter(vehicles, function(vehicle) {
+            const isVehicleWanted = _.any(lines, function(line) {
                 return vehicle.line === line.id &&
                        vehicle.area === line.area;
             });
@@ -85,23 +114,25 @@ function getVehicles(params) {
         });
     }
 
-    if (_.isArray(params.bounds)) {
-        vehicles = _.filter(vehicles, function(vehicle) {
+    return vehicles;
+}
+
+function _filterVehiclesWithBounds(vehicles, bounds) {
+    if (_.isArray(bounds)) {
+        return _.filter(vehicles, function(vehicle) {
             return geolib.isPointInside({
                 latitude: vehicle.latitude,
                 longitude: vehicle.longitude
-            }, params.bounds);
-        })
+            }, bounds);
+        });
     }
 
-    // Sometimes data contains null locations, filter them out
-    vehicles = _.filter(vehicles, vehicle => {
-        return vehicle.latitude !== 0 && vehicle.longitude !== 0;
-    });
+    return vehicles;
+}
 
-    return Promise.resolve({
-        vehicles: vehicles,
-        errors: global.errors
+function _filterNullLocationVehicles(vehicles) {
+    return _.filter(vehicles, vehicle => {
+        return vehicle.latitude !== 0 && vehicle.longitude !== 0;
     });
 }
 
