@@ -23,11 +23,21 @@ function _transformVehicle(data, vehicle) {
     // XXX: The vehicle type information is already in the lines json
     var routeInfo = _interpretJore(journey.LineRef.value);
     var lineName = routeInfo[2];
+    if (_.startsWith(lineName, 'GMN:')) {
+        // Helsinki data contains some Manchester vehicles also,
+        // they are prefixed with a special name.
+        // Try to make the line name sensible
+        const parts = lineName.split('GMN:');
+        if (parts.length > 1) {
+            lineName = parts[1].replace(/:/g, '').trim();
+        }
+    }
+
     var vehicleType = routeInfo[0].toLowerCase();
 
     return {
         id: journey.VehicleRef.value,
-        type: vehicleType,
+        type: vehicleType || 'bus',
         line: lineName,
         latitude: journey.VehicleLocation.Latitude,
         longitude: journey.VehicleLocation.Longitude,
