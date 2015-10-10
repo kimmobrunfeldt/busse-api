@@ -4,6 +4,7 @@ import {createJsonRoute} from '../utils';
 
 let getVehicles = createJsonRoute((req, res) => {
     let params = {
+        cluster: req.query.cluster === 'true',
         areas: ensureArray(req.query.area)
     };
 

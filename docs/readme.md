@@ -17,7 +17,7 @@ Adapters transform the data from external APIs to common "Busse" format.
 Adding a new area is simple:
 
 1. Get GTFS static data dump of the area.
-2. In the project root, run `node ./tools/parse-gtfs.js path/to/gtfs/routes > ./data/area.json`.
+2. In the project root, run `node ./tools/parse-gtfs.js path/to/gtfs/routes > ./src/adapters/area.json`.
 3. Write an adapter to [src/adapters/](../src/adapters/).
 
     Adapter module must export:
@@ -70,6 +70,15 @@ Helsinki uses special type of codes for their vehicle ids in SIRI VM data.
 These ids are called "JORE codes". They provide an example how to convert that
 special code to vehicle type and its id. See: https://github.com/HSLdevcom/navigator-proto/blob/master/src/routing.coffee#L40.
 
+### New York
+
+Data: `SIRI VM`
+
+**Shortcuts:**
+
+* [New York MTA Bus Time developer site](http://bustime.mta.info/wiki/Developers/Index)
+* [SIRI JSON API doc](http://bustime.mta.info/wiki/Developers/SIRIVehicleMonitoring)
+* [Register](https://docs.google.com/forms/d/1DRhN7C4UBelMkJm190tJT9mdrNtqDjsidNdrLddP_wg/viewform?hl=en&formkey=dG9kcGIxRFpSS0NhQWM4UjA0V0VkNGc6MQ#gid=0)
 
 ### Oulu (not implemented yet)
 

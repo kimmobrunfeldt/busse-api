@@ -53,7 +53,7 @@ This API fetches newest data from original APIs in 1000ms interval.
 Field     | Type | Description
 --------- | ---- | -----------
 **id**               | *String*  |  Vehicle identifier. Example: `TKL_34`
-**type**             | *String*  |  Type of the vehicle. Valid values: `bus`, `train`, `ferry`, `tram`, `subway`. Example: `bus`
+**type**             | *String*  |  Type of the vehicle. Valid values: `bus`, `train`, `ferry`, `tram`, `subway`, `cluster`. Example: `bus`
 **area**             | *String*  |  Vehicle area. Example: `helsinki`
 **line**             | *String*  |  Vehicle line id. Example: `90M`
 **latitude**         | *Number*  |  Latitude coordinate. Example: `61.5192917`

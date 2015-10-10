@@ -2,6 +2,7 @@
 
 .tmp
 .DS_Store
+local-env.sh
 
 # Logs
 logs

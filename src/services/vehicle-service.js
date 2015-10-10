@@ -6,6 +6,8 @@ import adapters from '../adapters/index';
 import createLogger from '../logger';
 const logger = createLogger(__filename);
 
+const SLOW_FETCH_TIME = 5000;
+
 // Module's global data
 let global = {
     // Format:
@@ -17,10 +19,20 @@ let global = {
 };
 
 function _fetchVehiclesWithInterval() {
-    adapters.map((adapter) => {
+    _.map(adapters, adapter => {
         const interval = createInterval(() => {
-            // TODO: implement logic to detect slow fetches
+            let fetchStartTime = (new Date()).getTime();
+
+            logger.debug('Fetching data from adapter', adapter.id, '..');
             return adapter.fetch().then((vehicles) => {
+                logger.debug('Received', vehicles.length, 'vehicles from adapter', adapter.id);
+
+                const timeNow = (new Date()).getTime();
+                if (timeNow - fetchStartTime > SLOW_FETCH_TIME) {
+                    logger.warn('Adapter', adapter.id, 'fetching takes too long:');
+                    logger.warn('Request finished in', timeNow - fetchStartTime, 'ms');
+                }
+
                 if (_.isEmpty(vehicles)) {
                     logger.warn('Adapter', adapter.id, 'provided empty response:');
                     logger.warn(vehicles);
@@ -35,7 +47,8 @@ function _fetchVehiclesWithInterval() {
                     const groupedById = _.groupBy(vehicles, 'id');
                     _.each(groupedById, function(val, id) {
                         if (val.length > 1) {
-                            logger.warn('Vehicles with same id:', val);
+                            logger.warn('Found', val.length, 'vehicles with same id:');
+                            logger.warn(JSON.stringify(val));
                         }
                     });
 
@@ -74,7 +87,37 @@ function _fetchVehiclesWithInterval() {
 _fetchVehiclesWithInterval();
 
 function getVehicles(params) {
-    let vehicles = _.reduce(global.vehicleData, function(all, areaVehicles, key) {
+    let vehicles;
+
+    if (params.cluster) {
+        vehicles = _getClusters(global.vehicleData);
+    } else {
+        vehicles = _getAllVehicles(global.vehicleData, params);
+    }
+
+    return Promise.resolve({
+        vehicles: vehicles,
+        errors: global.errors
+    });
+}
+
+function _getClusters(vehicleData) {
+    return _.reduce(vehicleData, function(all, areaVehicles, key) {
+        const cluster = {
+            id: key + '-cluster',
+            type: 'cluster',
+            area: key,
+            vehicleCount: areaVehicles.length,
+            latitude: adapters[key].latitude,
+            longitude: adapters[key].longitude
+        };
+
+        return all.concat([cluster]);
+    }, []);
+}
+
+function _getAllVehicles(vehicleData, params) {
+    let vehicles = _.reduce(vehicleData, function(all, areaVehicles, key) {
         return all.concat(areaVehicles);
     }, []);
 
@@ -86,10 +129,7 @@ function getVehicles(params) {
     // null location means: lat:0 lng:0
     vehicles = _filterNullLocationVehicles(vehicles);
 
-    return Promise.resolve({
-        vehicles: vehicles,
-        errors: global.errors
-    });
+    return vehicles;
 }
 
 function _filterVehiclesWithAreas(vehicles, areas) {

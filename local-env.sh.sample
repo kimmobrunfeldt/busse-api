@@ -1,0 +1,5 @@
+# Copy this file to local-env.sh
+# cp local-env.sh.sample local-env.sh
+
+export PORT=9000
+export MTA_API_KEY=<key>

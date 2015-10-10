@@ -40,7 +40,7 @@
     "superagent": "^1.3.0"
   },
   "scripts": {
-    "start": "PORT=9000 nodemon --exec babel-node -- ./src/index.js",
+    "start": "source local-env.sh && nodemon --exec babel-node -- ./src/index.js",
     "ci": "./tools/ci.sh",
     "test": "NODE_ENV=test PORT=8888 mocha --compilers js:babel/register",
     "eslint": "eslint --ext .js ./src ./test",
