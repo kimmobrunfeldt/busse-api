@@ -1,12 +1,28 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-function transformGtfsFeed(feed) {
-    // feed.entity is an array of entities
-    return _.map(feed.entity, transformEntity);
+function transformFirebaseVehicles(vehicles) {
+    return _.map(vehicles, _transformFirebaseVehicle);
 }
 
-function transformEntity(entity) {
+function _transformFirebaseVehicle(vehicle) {
+    return {
+        id: vehicle.id,
+        type: vehicle.vtype || 'bus',
+        line: vehicle.routeTag,
+        latitude: vehicle.lat,
+        longitude: vehicle.lon,
+        rotation: vehicle.heading,
+        responseTime: moment().toISOString()
+    };
+};
+
+function transformGtfsFeed(feed) {
+    // feed.entity is an array of entities
+    return _.map(feed.entity, _transformGtfsEntity);
+}
+
+function _transformGtfsEntity(entity) {
     return {
         id: entity.vehicle.vehicle.id,
         // TODO: other types?
@@ -20,5 +36,6 @@ function transformEntity(entity) {
 }
 
 export default {
+    transformFirebaseVehicles,
     transformGtfsFeed
 };

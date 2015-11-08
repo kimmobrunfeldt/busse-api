@@ -74,7 +74,7 @@ function _interpretJore(routeId) {
 // jscs:enable
 /*eslint-enable */
 
-export {
+export default {
     id,
     name,
     latitude,

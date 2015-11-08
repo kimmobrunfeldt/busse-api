@@ -1,7 +1,7 @@
 import Promise from 'bluebird';
 import request from 'request';
 import GtfsRealtimeBindings from 'gtfs-realtime-bindings';
-import gtfsTransform from '../gtfs-realtime-transform';
+import transforms from '../transforms';
 
 const id = 'massachusetts';
 const name = 'Massachusetts';
@@ -23,14 +23,13 @@ function fetch() {
             }
 
             var feed = GtfsRealtimeBindings.FeedMessage.decode(body);
-            var vehicles = gtfsTransform.transformGtfsFeed(feed);
-            console.log(vehicles)
+            var vehicles = transforms.transformGtfsFeed(feed);
             resolve(vehicles);
         });
     });
 }
 
-export {
+export default {
     id,
     name,
     latitude,

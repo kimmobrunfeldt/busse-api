@@ -41,7 +41,7 @@ function _transformVehicle(data, vehicle) {
     };
 }
 
-export {
+export default {
     id,
     name,
     latitude,

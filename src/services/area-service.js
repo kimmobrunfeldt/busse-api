@@ -13,7 +13,15 @@ const areas = _.map(adapters, function(adapter) {
     };
 
     const filePath = path.join(__dirname, '../adapters/' + adapter.id + '.json');
-    area.lines = JSON.parse(fs.readFileSync(filePath, 'utf8')).lines;
+
+    try {
+        area.lines = JSON.parse(fs.readFileSync(filePath, 'utf8')).lines;
+    } catch (e) {
+        console.error('Error when reading', filePath);
+        console.error(e);
+        console.error('Setting the area data to empty object');
+        area.lines = {};
+    }
 
     return area;
 });
