@@ -24,6 +24,7 @@
     "express": "^4.13.3",
     "firebase": "^2.3.1",
     "geolib": "^2.0.18",
+    "gtfs-realtime-bindings": "0.0.4",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "morgan": "^1.6.1",
